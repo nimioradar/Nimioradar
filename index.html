@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+< lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NIMIO EGG RADAR</title>
+<style>
+body {
+  background:#071426;
+  color:white;
+  font-family:Arial;
+  text-align:center;
+  padding:15px;
+}
+h1 {color:#42d9ff;}
+.panel {
+  background:#132944;
+  padding:18px;
+  border-radius:15px;
+  margin-top:20px;
+}
+input,select {
+  padding:12px;
+  margin:8px;
+  width:90%;
+  border:0;
+  border-radius:8px;
+}
+button {
+  background:#087de0;
+  color:white;
+  border:0;
+  padding:13px;
+  border-radius:9px;
+  margin:8px;
+}
+.registro {
+  background:#203b59;
+  padding:10px;
+  margin:8px;
+  border-radius:8px;
+}
+</style>
+</head>
+<>
+
+<h1>🥚 NIMIO EGG RADAR</h1>
+<p>📡 RADAR PRIVADO</p>
+
+<div class="panel">
+<h2>🔎 REGISTRAR HUEVO</h2>
+
+<input id="servidor" placeholder="Nombre del servidor">
+
+<select id="huevo">
+<option value="Divino">🥚 Divino</option>
+<option value="Eterno">🌟 Eterno</option>
+<option value="Secreto">💎 Secreto</option>
+</select>
+
+<button onclick="registrar()">REGISTRAR HUEVO</button>
+
+<h2>📡 HUEVOS ENCONTRADOS</h2>
+<div id="registros">Todavía no hay huevos.</div>
+</div>
+
+
+<script>
+function registrar() {
+  let servidor = document.getElementById("servidor").value;
+  let huevo = document.getElementById("huevo").value;
+
+  if (!servidor.trim()) {
+    alert("Escribí el nombre del servidor");
+    return;
+  }
+
+  let lista = JSON.parse(
+    localStorage.getItem("huevos") || "[]"
+  );
+
+  lista.push({
+    servidor: servidor,
+    huevo: huevo
+  });
+
+  localStorage.setItem("huevos", JSON.stringify(lista));
+
+  mostrar();
+
+  document.getElementById("servidor").value = "";
+}
+
+function mostrar() {
+  let lista = JSON.parse(
+    localStorage.getItem("huevos") || "[]"
+  );
+
+  let caja = document.getElementById("registros");
+  caja.innerHTML = "";
+
+  if (lista.length === 0) {
+    caja.textContent = "Todavía no hay huevos.";
+    return;
+  }
+
+  lista.forEach(function(item) {
+    let p = document.createElement("div");
+    p.className = "registro";
+    p.textContent = "🥚 " + item.huevo +
+      " — Servidor: " + item.servidor;
+
+    caja.appendChild(p);
+  });
+}
+
+mostrar();
+</script>
